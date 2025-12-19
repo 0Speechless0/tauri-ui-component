@@ -1,38 +1,50 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <!-- <link rel="stylesheet" href="styles.css" /> -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tauri App</title>
-    <!-- <script type="module" src="/main.js" defer></script> -->
-  </head>
-  <script type="module">
-    import "./button/index.js"
-    import "./grid/ratio-grid.js"
-    import "./global/sticky-header.js"
 
-  </script>
-  <body>
-    <sticky-header data='[ "記帳", "查詢" , "設定"]' logo="COIN-STORY" >
-        <ratio-grid data="[[2 ,2, 2]]" >
-          <primary-button > </primary-button>
-          <success-button> </success-button>
-          <danger-button> </danger-button>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tauri App</title>
+  <!-- <script type="module" src="/main.js" defer></script> -->
+</head>
+<script type="module">
+  import "./button/index.js"
+  import "./layout/ratio-grid.js"
+  import "./global/sticky-header.js"
+  import "./layout/fan-permu.js"
+  import "./card/amount-card.js"
+
+</script>
+
+<body>
+  <sticky-header data='[ "記帳", "查詢" , "設定"]' logo="COIN-STORY">
+    <ratio-grid data="[[1], [1], [2 ,2, 2]]">
+      <fan-permu>
+        <div>A</div>
+        <div>B</div>
+        <div>C</div>
+        <div>D</div>
+        <div>F</div>
+
+      </fan-permu>
+
+      <primary-button> </primary-button>
+      <success-button> </success-button>
+      <danger-button> </danger-button>
 
 
 
 
-        </ratio-grid>
-        <div>
-          查詢清單
-        </div>
-        <div>
-          設定
-        </div>
-    </sticky-header>
+    </ratio-grid>
+    <div>
+      <amount-card></amount-card>
+    </div>
+    <div>
+      設定
+    </div>
+  </sticky-header>
 
-  </body>
+</body>
 
 </html>
-

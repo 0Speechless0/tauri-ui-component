@@ -114,7 +114,7 @@ class StickyHeader extends HTMLElement {
   constructor() {
     super();
     this._shadowRoot = this.attachShadow({
-      mode: 'open'
+      mode: 'closed'
     });
     this._shadowRoot.appendChild(document.importNode(template.content.cloneNode(true), true));
     this.header = this._shadowRoot.querySelector('.app-header');
@@ -133,8 +133,11 @@ class StickyHeader extends HTMLElement {
       e.style.display = "none";
       i++;
     })
-    if (this.elements.length > 0)
+    if (this.elements.length > 0 && this.dataArray.length > 0) {
       this.elements[0].style.display = "block"
+      this.setAttribute("content", this.dataArray[0])
+    }
+
     window.addEventListener('scroll', () => {
       this.header.classList.toggle('scrolled', window.scrollY > 8);
     });
@@ -148,6 +151,8 @@ class StickyHeader extends HTMLElement {
         this.setAttribute("content", value)
       })
     })
+
+    this.style.setProperty("visibility", 'visible');
 
   }
 
@@ -167,6 +172,7 @@ class StickyHeader extends HTMLElement {
   }
 
   connectedCallback() {
+    // 初始化完成 → 顯示
 
   }
 

@@ -32,13 +32,13 @@ template.innerHTML = /*html*/ `
 class RatioGrid extends HTMLElement {
   constructor() {
     super();
-    this.attachShadow({
-      mode: 'open'
+    this._shadowRoot = this.attachShadow({
+      mode: 'closed'
     });
     this.setAttribute("mobile-breakpoint", "600")
-    this.shadowRoot.appendChild(document.importNode(template.content.cloneNode(true), true));
-    const slot = this.shadowRoot.querySelector("slot");
-    this.container = this.shadowRoot.querySelector("#container")
+    this._shadowRoot.appendChild(document.importNode(template.content.cloneNode(true), true));
+    const slot = this._shadowRoot.querySelector("slot");
+    this.container = this._shadowRoot.querySelector("#container")
 
     this.elements = slot.assignedElements({
       flatten: true
@@ -74,7 +74,7 @@ class RatioGrid extends HTMLElement {
 
   updateLayout() {
     const isMobile = window.innerWidth < this.mobileBreakpoint;
-    const rows = this.shadowRoot.querySelectorAll('.row');
+    const rows = this._shadowRoot.querySelectorAll('.row');
     rows.forEach(row => {
       row.style.flexDirection = isMobile ? 'column' : 'row';
     });
