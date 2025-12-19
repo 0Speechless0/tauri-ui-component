@@ -43,6 +43,7 @@ class RatioGrid extends HTMLElement {
     this.elements = slot.assignedElements({
       flatten: true
     })
+    this.render();
 
   }
   static get observedAttributes() {
@@ -50,7 +51,6 @@ class RatioGrid extends HTMLElement {
   }
 
   connectedCallback() {
-    this.render();
     window.addEventListener('resize', () => this.updateLayout());
   }
 

@@ -130,11 +130,13 @@ class StickyHeader extends HTMLElement {
     this.contents = {}
     this.elements.forEach(e => {
       this.contents[this.dataArray[i]] = e;
-      e.style.display = "none";
+      // e.style.display = "none";
+      e.remove();
       i++;
     })
     if (this.elements.length > 0 && this.dataArray.length > 0) {
-      this.elements[0].style.display = "block"
+      // this.elements[0].style.display = "block"
+      slot.parentNode.appendChild(this.elements[0])
       this.setAttribute("content", this.dataArray[0])
     }
 
@@ -178,9 +180,14 @@ class StickyHeader extends HTMLElement {
 
   attributeChangedCallback(name, oldVal, newVal) {
 
+
     if (name == "content") {
-      this.contents[oldVal].style.display = 'none'
-      this.contents[newVal].style.display = 'block'
+      console.log("oldV", this.contents[oldVal], this.contents[newVal], this.contents[oldVal].parentNode)
+      const slotParent = this.contents[oldVal].parentNode;
+      this.contents[oldVal].remove();
+      slotParent.appendChild(this.contents[newVal]);
+      // this.contents[oldVal].style.display = 'none'
+      // this.contents[newVal].style.display = 'block'
     }
   }
 }

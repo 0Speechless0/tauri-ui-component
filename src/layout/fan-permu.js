@@ -54,14 +54,14 @@ template.innerHTML = /*html*/ `
 class FanPermu extends HTMLElement {
   constructor() {
     super();
-    this.attachShadow({
-      mode: 'open'
+    this._shadowRoot = this.attachShadow({
+      mode: 'closed'
     });
     this.style.setProperty("--height", this.getAttribute("height"))
     this.style.setProperty("--item-height", this.getAttribute("item-height"))
     this.style.setProperty("--item-width", this.getAttribute("item-width"))
-    this.shadowRoot.appendChild(document.importNode(template.content.cloneNode(true), true));
-    const slot = this.shadowRoot.querySelector("slot");
+    this._shadowRoot.appendChild(document.importNode(template.content.cloneNode(true), true));
+    const slot = this._shadowRoot.querySelector("slot");
     this.elements = slot.assignedElements({
       flatten: true
     })
@@ -74,7 +74,7 @@ class FanPermu extends HTMLElement {
   }
 
   render() {
-    const fan_container = this.shadowRoot.querySelector(".fan-container");
+    const fan_container = this._shadowRoot.querySelector(".fan-container");
     const container_width = parseInt(getComputedStyle(fan_container).width);
     let item_width;
 
