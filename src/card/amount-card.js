@@ -2,7 +2,8 @@ const template = document.createElement("template")
 template.innerHTML = /*html*/ `
 <style>
   .amount-card {
-    padding: 1rem 1.25rem;
+    margin: auto;
+
     border-radius: 10px;
     background: #ffffff;
 
@@ -28,7 +29,7 @@ template.innerHTML = /*html*/ `
 
   .amount-card .currency {
     font-size: 0.875rem;
-    margin-right: 0.25rem;
+
     color: #6b7280;
   }
 
@@ -45,8 +46,13 @@ template.innerHTML = /*html*/ `
   </div>
 </div>
 
-`
 
+`
+/*
+
+function:
+setAmount(value: integer)
+*/
 class AmountCard extends HTMLElement {
   constructor() {
     super();
@@ -55,26 +61,41 @@ class AmountCard extends HTMLElement {
       mode: "closed"
     })
     this._shadowRoot.appendChild(template.content.cloneNode(true));
+    this.total_amount = this._shadowRoot.querySelector('#total-amount')
 
   }
 
   static get observedAttributes() {
     return ['sampleAttr'];
   }
-  animateAmount(el, target, duration = 800) {
-    const start = 0;
-    const startTime = performance.now();
 
-    function tick(now) {
-      const progress = Math.min((now - startTime) / duration, 1);
-      const value = Math.floor(start + (target - start) * progress);
-      el.textContent = value.toLocaleString();
-
-      if (progress < 1) {
-        requestAnimationFrame(tick);
+  setAmount(value) {
+    this.total_amount.textContent = value.toLocaleString();
+    this.dispatchEvent(new CustomEvent("progress", {
+      detail: {
+        value: value
       }
-    }
-    requestAnimationFrame(tick);
+    }));
+  }
+  async animateAmount(target, duration = 800) {
+    return new Promise(resolve => {
+      const start = 0;
+      const startTime = performance.now();
+
+      const tick = (now) => {
+        const progress = Math.min((now - startTime) / duration, 1);
+        const value = Math.floor(start + (target - start) * progress);
+
+
+        if (progress < 1) {
+          requestAnimationFrame(tick);
+        } else {
+          resolve();
+        }
+        this.setAmount(value)
+      }
+      requestAnimationFrame(tick);
+    });
   }
   attributeChangedCallback(attrName, oldVal, newVal) {
     switch (attrName) {
@@ -86,8 +107,19 @@ class AmountCard extends HTMLElement {
     }
   }
   connectedCallback() {
-    console.log("AAAA");
-    this.animateAmount(this._shadowRoot.querySelector('#total-amount'), 12845678);
+    this.renderAmount();
+  }
+  async renderAmount() {
+    ;
+    await this.animateAmount(12845678);
+    const total_amount_style = getComputedStyle(this._shadowRoot.querySelector('#total-amount'));
+    const amount_style = getComputedStyle(this._shadowRoot.querySelector('.amount'));
+    this.dispatchEvent(new CustomEvent("mounted", {
+      detail: {
+        cardHeight: total_amount_style.height,
+        cardWidth: amount_style.width
+      }
+    }));
   }
   get sampleAttr() {
     return this.getAttribute('sampleAttr');

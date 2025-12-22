@@ -9,42 +9,12 @@
   <!-- <script type="module" src="/main.js" defer></script> -->
 </head>
 <script type="module">
-  import "./button/index.js"
-  import "./layout/ratio-grid.js"
-  import "./global/sticky-header.js"
-  import "./layout/fan-permu.js"
-  import "./card/amount-card.js"
+  import "./demo-root.js"
 
 </script>
 
 <body>
-  <sticky-header data='[ "記帳", "查詢" , "設定"]' logo="COIN-STORY">
-    <ratio-grid data="[[1], [1], [2 ,2, 2]]">
-      <fan-permu>
-        <div>A</div>
-        <div>B</div>
-        <div>C</div>
-        <div>D</div>
-        <div>F</div>
-
-      </fan-permu>
-
-      <primary-button> </primary-button>
-      <success-button> </success-button>
-      <danger-button> </danger-button>
-
-
-
-
-    </ratio-grid>
-    <div>
-      <amount-card></amount-card>
-    </div>
-    <div>
-      設定
-    </div>
-  </sticky-header>
-
+  <demo-root> </demo-root>
 </body>
 
 </html>

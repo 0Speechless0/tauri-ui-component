@@ -89,7 +89,6 @@ class FanPermu extends HTMLElement {
       const r = center_x;
       const item_x = center_x + r * Math.cos(Math.PI / 180 * (start_angle - div_angle * i))
       const item_y = -r * Math.sin(Math.PI / 180 * (start_angle - div_angle * i))
-      console.log("AA", item_x, item_y, container_width, item_width)
       item.style.setProperty("left", `${item_x}px`)
       item.style.setProperty("top", `${item_y}px`)
       item.appendChild(e);

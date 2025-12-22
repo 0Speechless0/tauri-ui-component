@@ -47,7 +47,7 @@ export class UIButton extends HTMLElement {
 
   connectedCallback() {
 
-    console.log("FFF1")
+
   }
 
   attributeChangedCallback(name, oldVal, newVal) {}

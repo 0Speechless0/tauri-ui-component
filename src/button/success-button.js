@@ -23,7 +23,7 @@ export class SuccessButton extends HTMLElement {
   }
 
   connectedCallback() {
-    console.log("FFF2")
+
   }
 
   attributeChangedCallback(name, oldVal, newVal) {}
