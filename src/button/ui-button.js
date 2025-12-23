@@ -27,8 +27,10 @@ template.innerHTML = /*html*/ `
 </style>
 
 
-<button>Hello Web Component</button>
-<slot></slot>
+<button>
+  <slot></slot>
+</button>
+
 <slot name="input"></slot>
 `;
 
@@ -38,7 +40,7 @@ export class UIButton extends HTMLElement {
     this._shadowRoot = this.attachShadow({
       mode: 'open'
     });
-    this._shadowRoot.appendChild(template.content.cloneNode(true));
+    this._shadowRoot.appendChild(document.importNode(template.content.cloneNode(true), true));
   }
 
   static get observedAttributes() {

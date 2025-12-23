@@ -110,6 +110,12 @@ template.innerHTML = /*html*/ `
 </slot>
 `;
 
+/*
+properties:
+logo,
+data
+
+*/
 class StickyHeader extends HTMLElement {
   constructor() {
     super();
@@ -136,8 +142,16 @@ class StickyHeader extends HTMLElement {
     })
     if (this.elements.length > 0 && this.dataArray.length > 0) {
       // this.elements[0].style.display = "block"
-      slot.parentNode.appendChild(this.elements[0])
-      this.setAttribute("content", this.dataArray[0])
+      const lastContent = localStorage.getItem("tab");
+      if (lastContent) {
+        slot.parentNode.appendChild(this.contents[lastContent])
+        this.setAttribute("content", lastContent)
+
+      } else {
+        slot.parentNode.appendChild(this.elements[0])
+        this.setAttribute("content", this.dataArray[0])
+      }
+
     }
 
     window.addEventListener('scroll', () => {
@@ -186,6 +200,7 @@ class StickyHeader extends HTMLElement {
       const slotParent = this.contents[oldVal].parentNode;
       this.contents[oldVal].remove();
       slotParent.appendChild(this.contents[newVal]);
+      localStorage.setItem("tab", newVal);
       // this.contents[oldVal].style.display = 'none'
       // this.contents[newVal].style.display = 'block'
     }

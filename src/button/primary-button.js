@@ -4,7 +4,7 @@ template.innerHTML = /*html*/ `
 
 
 <ui-button style="--bg-color-from-left: #4f46e5; --bg-color-to-right: #a366f1 ">
-
+  <slot> </slot>
 </ui-button>
 
 `;
@@ -15,7 +15,7 @@ export class PrimaryButton extends HTMLElement {
     this._shadowRoot = this.attachShadow({
       mode: 'open'
     });
-    this._shadowRoot.appendChild(template.content.cloneNode(true));
+    this._shadowRoot.appendChild(document.importNode(template.content.cloneNode(true), true));
   }
 
   static get observedAttributes() {

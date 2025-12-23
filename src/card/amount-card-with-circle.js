@@ -66,11 +66,17 @@ template.innerHTML = /*html*/ `
 `;
 
 /*
-radius : 160, line-width: 5, max-value: 1
+properties:
+
+radius: integer,
+line-width: integer,
+max-value: integer
+
 */
 class AmountCardWithCircle extends HTMLElement {
   constructor() {
     super();
+    const a = document.createElement("amount-card");
 
     this._shadowRoot = this.attachShadow({
       mode: "closed"

@@ -4,28 +4,35 @@ import "./global/sticky-header.js"
 import "./layout/fan-permu.js"
 import "./card/amount-card.js"
 import "./card/amount-card-with-circle.js"
+import "./card/logs-card.js"
+import "./card/finance-card.js"
 const template = document.createElement("template");
 template.innerHTML = /*html*/ `
-<sticky-header data='[ "記帳", "查詢" , "設定"]' logo="COIN-STORY">
-  <ratio-grid data="[[1], [1], [2 ,2, 2], [1], [1]]">
-    <fan-permu>
-      <div>A</div>
-      <div>B</div>
-      <div>C</div>
-      <div>D</div>
-      <div>F</div>
+<sticky-header data='[ "弧排列", "網格" , "卡片"]' logo="component-demo">
+  <fan-permu height="500" width="500" item-height="60" item-width="60">
+    <div>A</div>
+    <div>B</div>
+    <div>C</div>
+    <div>D</div>
+    <div>F</div>
+  </fan-permu>
+  <ratio-grid data="[[1,2 ], [1]]">
 
-    </fan-permu>
-
-    <primary-button> </primary-button>
-    <success-button> </success-button>
-    <danger-button> </danger-button>
-    <amount-card-with-circle radius="100" line-width="5" , max-value="12845678"> </amount-card-with-circle>
-    <!-- <amount-card></amount-card> -->
-
-
+    <primary-button> AAA</primary-button>
+    <success-button> AAA</success-button>
+    <danger-button> AAA</danger-button>
 
   </ratio-grid>
+  <ratio-grid data="[[1], [1] ,[1] , [1]]">
+
+    <amount-card-with-circle radius="100" line-width="5" max-value="12845678" style="maring-top: -100px"> </amount-card-with-circle>
+
+    <logs-card> </logs-card>
+    <ul>
+    </ul>
+    <finance-card />
+  </ratio-grid>
+
   <div>
     AAA
   </div>

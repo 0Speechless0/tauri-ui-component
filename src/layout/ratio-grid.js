@@ -29,6 +29,13 @@ template.innerHTML = /*html*/ `
 
 `;
 
+/*template
+
+properties:
+
+data: [][]
+
+*/
 class RatioGrid extends HTMLElement {
   constructor() {
     super();

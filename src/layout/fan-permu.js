@@ -2,7 +2,6 @@ const template = document.createElement('template');
 template.innerHTML = /*html*/ `
 <style>
   .container {
-    height: var(--height, 250px);
     display: flex;
     justify-content: center;
     align-items: end;
@@ -11,7 +10,7 @@ template.innerHTML = /*html*/ `
 
   .fan-container {
     position: relative;
-    width: 90%;
+    width: var(--width, 90%);
     height: 100px;
     border-radius: 50%;
   }
@@ -48,36 +47,52 @@ template.innerHTML = /*html*/ `
 </div>
 
 
-<slot> </slot>
+<slot name="center"> </slot>
 `
+/*
+properties:
 
+height: integer,
+width: integer,
+item-height: integer,
+item-width: integer,
+
+
+*/
 class FanPermu extends HTMLElement {
   constructor() {
     super();
     this._shadowRoot = this.attachShadow({
       mode: 'closed'
     });
-    this.style.setProperty("--height", this.getAttribute("height"))
-    this.style.setProperty("--item-height", this.getAttribute("item-height"))
-    this.style.setProperty("--item-width", this.getAttribute("item-width"))
+
+    this.style.setProperty("--item-height", `${this.getAttribute("item-height")}px`)
+    this.style.setProperty("--item-width", `${this.getAttribute("item-width")}px`)
+    this.style.setProperty("--width", `${this.getAttribute("width")}px`)
     this._shadowRoot.appendChild(document.importNode(template.content.cloneNode(true), true));
+
     const slot = this._shadowRoot.querySelector("slot");
     this.elements = slot.assignedElements({
       flatten: true
     })
 
-    this.render();
-  }
 
+  }
+  connectedCallback() {
+
+    this.render(parseInt(this.getAttribute("height")));
+  }
   static get observedAttributes() {
     return ['sampleAttr'];
   }
 
-  render() {
+  render(height) {
     const fan_container = this._shadowRoot.querySelector(".fan-container");
     const container_width = parseInt(getComputedStyle(fan_container).width);
-    let item_width;
 
+    let item_width;
+    let center_x;
+    let center_y = height;
     const div_angle = 180 / (this.elements.length - 1);
     const start_angle = 180;
     this.elements.forEach((e, i) => {
@@ -85,18 +100,19 @@ class FanPermu extends HTMLElement {
       item.classList.add("fan-item");
       fan_container.appendChild(item);
       item_width = parseInt(getComputedStyle(item).width);
-      const center_x = (container_width - item_width) / 2;
+      center_x = (container_width - item_width) / 2;
       const r = center_x;
       const item_x = center_x + r * Math.cos(Math.PI / 180 * (start_angle - div_angle * i))
-      const item_y = -r * Math.sin(Math.PI / 180 * (start_angle - div_angle * i))
+      const item_y = center_y - r * Math.sin(Math.PI / 180 * (start_angle - div_angle * i))
       item.style.setProperty("left", `${item_x}px`)
       item.style.setProperty("top", `${item_y}px`)
       item.appendChild(e);
     })
-  }
-  connectedCallback() {
+
+
 
   }
+
   attributeChangedCallback(attrName, oldVal, newVal) {
     switch (attrName) {
       case 'sampleAttr':

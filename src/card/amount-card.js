@@ -44,14 +44,16 @@ template.innerHTML = /*html*/ `
     <span class="currency">NT$</span>
     <span id="total-amount">0</span>
   </div>
+
 </div>
 
 
 `
 /*
+properties:
 
-function:
-setAmount(value: integer)
+value
+
 */
 class AmountCard extends HTMLElement {
   constructor() {
@@ -66,10 +68,10 @@ class AmountCard extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['sampleAttr'];
+    return ['value'];
   }
 
-  setAmount(value) {
+  #setAmount(value) {
     this.total_amount.textContent = value.toLocaleString();
     this.dispatchEvent(new CustomEvent("progress", {
       detail: {
@@ -92,15 +94,15 @@ class AmountCard extends HTMLElement {
         } else {
           resolve();
         }
-        this.setAmount(value)
+        this.#setAmount(value);
       }
       requestAnimationFrame(tick);
     });
   }
   attributeChangedCallback(attrName, oldVal, newVal) {
     switch (attrName) {
-      case 'sampleAttr':
-        this.elems.elem.setAttribute('sampleAttr', newVal);
+      case 'value':
+        this.#setAmount(newVal);
         break;
       default:
         break;
@@ -120,6 +122,9 @@ class AmountCard extends HTMLElement {
         cardWidth: amount_style.width
       }
     }));
+  }
+  get BBB() {
+    return "S"
   }
   get sampleAttr() {
     return this.getAttribute('sampleAttr');
